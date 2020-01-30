@@ -135,6 +135,39 @@ class CodeGenerator {
     }
   }
 
+    /*
+    @param Object data {
+      {function} body
+    }
+  */
+ static doStatement(data) {
+  var code =
+    `do {` + "\n" +
+      `${data.body}` + "\n" +
+    `} while ( ${data.condition})`;
+
+  return {
+    data: data,
+    code: CodeGenerator.indent(code)
+  }
+}
+  /*
+    @param Object data {
+      {string} condition,
+      {function} body
+    }
+  */
+ static whileStatement(data) {
+  var code =
+    `while (${data.condition}) {` + "\n" +
+      `${data.body}` + "\n" +
+    `}`;
+
+  return {
+    data: data,
+    code: CodeGenerator.indent(code)
+  }
+}
   /*
     @param Object data {
       {string} condition,
@@ -144,7 +177,7 @@ class CodeGenerator {
   static ifStatement(data) {
     var code =
       `if (${data.condition}) {` + "\n" +
-        `${data.body()}` + "\n" +
+        `${data.body}` + "\n" +
       `}`;
 
     return {
@@ -162,7 +195,7 @@ class CodeGenerator {
   static elseIfStatement(data) {
     var code =
       `else if (${data.condition}) {` + "\n" +
-        `${data.body()}` + "\n" +
+        `${data.body}` + "\n" +
       `}`;
 
     return {
@@ -178,7 +211,7 @@ class CodeGenerator {
   static elseStatement(data) {
     var code =
       `else {` + "\n" +
-        `${data.body()}` + "\n" +
+        `${data.body}` + "\n" +
       `}`;
 
     return {
