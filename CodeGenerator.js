@@ -1,7 +1,6 @@
-'use strict';
+"use strict";
 
 class CodeGenerator {
-
   /*
     @param Object data {
       {string} name,
@@ -14,7 +13,7 @@ class CodeGenerator {
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
 
   /*
@@ -29,7 +28,7 @@ class CodeGenerator {
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
 
   /*
@@ -40,15 +39,13 @@ class CodeGenerator {
   */
   static incrementVariable(data) {
     var code;
-    if (data.value)
-      code = `${data.name} += ${data.value};`;
-    else
-      code = `${data.name}++`;
+    if (data.value) code = `${data.name} += ${data.value};`;
+    else code = `${data.name}++`;
 
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
 
   /*
@@ -59,19 +56,14 @@ class CodeGenerator {
   */
   static decrementVariable(data) {
     var code;
-    if (data.value)
-      code = `${data.name} -= ${data.value};`;
-    else
-      code = `${data.name}--`;
+    if (data.value) code = `${data.name} -= ${data.value};`;
+    else code = `${data.name}--`;
 
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
-
-
-
 
   /*
     @param Object data {
@@ -86,14 +78,17 @@ class CodeGenerator {
   */
   static firstClassFunction(data) {
     var code =
-      `var ${data.name} = function(${ data.args && data.args.join(",") || "" }) {` + "\n" +
-        `${data.body()}` + "\n" +
-      `};`
+      `var ${data.name} = function(${(data.args && data.args.join(",")) ||
+        ""}) {` +
+      "\n" +
+      `${data.body()}` +
+      "\n" +
+      `};`;
 
     return {
       data: data,
       code: CodeGenerator.indent(code)
-    }
+    };
   }
 
   /*
@@ -112,7 +107,7 @@ class CodeGenerator {
     return {
       code: code,
       data: data
-    }
+    };
   }
 
   /*
@@ -125,49 +120,49 @@ class CodeGenerator {
   */
   static objectFunction(data) {
     var code =
-      `${data.objName || "this"}.${data.funcName} = function(${ data.args && data.args.join(", ") || "" }) {` + "\n" +
-        `${data.body()}` + "\n" +
-      `};`
+      `${data.objName || "this"}.${data.funcName} = function(${(data.args &&
+        data.args.join(", ")) ||
+        ""}) {` +
+      "\n" +
+      `${data.body()}` +
+      "\n" +
+      `};`;
 
     return {
       data: data,
       code: CodeGenerator.indent(code)
-    }
+    };
   }
 
-    /*
+  /*
     @param Object data {
       {function} body
     }
   */
- static doStatement(data) {
-  var code =
-    `do {` + "\n" +
-      `${data.body}` + "\n" +
-    `} while ( ${data.condition})`;
+  static doStatement(data) {
+    var code =
+      `do {` + "\n" + `${data.body}` + "\n" + `} while ( ${data.condition})`;
 
-  return {
-    data: data,
-    code: CodeGenerator.indent(code)
+    return {
+      data: data,
+      code: CodeGenerator.indent(code)
+    };
   }
-}
   /*
     @param Object data {
       {string} condition,
       {function} body
     }
   */
- static whileStatement(data) {
-  var code =
-    `while (${data.condition}) {` + "\n" +
-      `${data.body}` + "\n" +
-    `}`;
+  static whileStatement(data) {
+    var code =
+      `while (${data.condition}) {` + "\n" + `${data.body}` + "\n" + `}`;
 
-  return {
-    data: data,
-    code: CodeGenerator.indent(code)
+    return {
+      data: data,
+      code: CodeGenerator.indent(code)
+    };
   }
-}
   /*
     @param Object data {
       {string} condition,
@@ -175,15 +170,12 @@ class CodeGenerator {
     }
   */
   static ifStatement(data) {
-    var code =
-      `if (${data.condition}) {` + "\n" +
-        `${data.body}` + "\n" +
-      `}`;
+    var code = `if (${data.condition}) {` + "\n" + `${data.body}` + "\n" + `}`;
 
     return {
       data: data,
       code: CodeGenerator.indent(code)
-    }
+    };
   }
 
   /*
@@ -194,13 +186,11 @@ class CodeGenerator {
   */
   static elseIfStatement(data) {
     var code =
-      `else if (${data.condition}) {` + "\n" +
-        `${data.body}` + "\n" +
-      `}`;
+      `else if (${data.condition}) {` + "\n" + `${data.body}` + "\n" + `}`;
 
     return {
       code: CodeGenerator.indent(code)
-    }
+    };
   }
 
   /*
@@ -209,14 +199,11 @@ class CodeGenerator {
     }
   */
   static elseStatement(data) {
-    var code =
-      `else {` + "\n" +
-        `${data.body}` + "\n" +
-      `}`;
+    var code = `else {` + "\n" + `${data.body}` + "\n" + `}`;
 
     return {
       code: CodeGenerator.indent(code)
-    }
+    };
   }
 
   /*
@@ -229,14 +216,37 @@ class CodeGenerator {
   */
   static forLoop(data) {
     var code =
-      `for (${data.startCondition}; ${data.stopCondition}; ${data.incrementAction}) {` + "\n" +
-        `${data.body()}` + "\n" +
-      `}`
+      `for (${data.startCondition}; ${data.stopCondition}; ${data.incrementAction}) {` +
+      "\n" +
+      `${data.body()}` +
+      "\n" +
+      `}`;
 
     return {
       data: data,
       code: CodeGenerator.indent(code)
+    };
+  }
+
+  /*
+    @param Object data {
+      {string} objectArray,
+      {string} iterationName,
+      {function} body
     }
+  */
+  static forEachLoop(data) {
+    var code =
+      `${data.objectArray}.forEach( ${data.iterationName} => {` +
+      "\n" +
+      `${data.body()}` +
+      "\n" +
+      `})`;
+
+    return {
+      data: data,
+      code: CodeGenerator.indent(code)
+    };
   }
 
   /*
@@ -245,15 +255,11 @@ class CodeGenerator {
     }
   */
   static tryBlock(data) {
-    var code =
-      `try {` + "\n" +
-        `${data.body()}` + "\n" +
-      `}`;
+    var code = `try {` + "\n" + `${data.body()}` + "\n" + `}`;
 
     return {
       code: CodeGenerator.indent(code)
-    }
-
+    };
   }
 
   /*
@@ -264,13 +270,14 @@ class CodeGenerator {
   */
   static catchBlock(data) {
     var code =
-      `catch(${ data.arg || "" }) {`  + "\n" +
-        `${data.body(data.arg)}`  + "\n" +
+      `catch(${data.arg || ""}) {` +
+      "\n" +
+      `${data.body(data.arg)}` +
+      "\n" +
       `}`;
 
-    return CodeGenerator.indent(code)
+    return CodeGenerator.indent(code);
   }
-
 
   /*
     @param Object data {
@@ -280,11 +287,13 @@ class CodeGenerator {
     }
   */
   static objectFunctionCall(data) {
-    var code = `${data.objName || "this"}.${data.funcName}(${ data.args && data.args.join(", ") || "" });`;
+    var code = `${data.objName || "this"}.${data.funcName}(${(data.args &&
+      data.args.join(", ")) ||
+      ""});`;
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
 
   /*
@@ -294,7 +303,7 @@ class CodeGenerator {
     }
   */
   static chainFunction(data) {
-    return `.${data.name}(${ (data.args && data.args.join(", ")) || "" })`;
+    return `.${data.name}(${(data.args && data.args.join(", ")) || ""})`;
   }
 
   /*
@@ -307,11 +316,10 @@ class CodeGenerator {
   */
   static objectPropertyAssignment(data) {
     var code;
-    if ( data.hasOwnProperty("dotNotation") && data.dotNotation == false){
+    if (data.hasOwnProperty("dotNotation") && data.dotNotation == false) {
       code = `${data.objName || "this"}["${data.propName}"] = ${data.value};`;
       data.name = `${data.objName}["${data.propName}"]`;
-    }
-    else {
+    } else {
       code = `${data.objName || "this"}.${data.propName} = ${data.value};`;
       data.name = `${data.objName}.${data.propName}`;
     }
@@ -319,7 +327,7 @@ class CodeGenerator {
     return {
       data: data,
       code: CodeGenerator.clean(code)
-    }
+    };
   }
 
   /*
@@ -332,17 +340,17 @@ class CodeGenerator {
     return {
       code: code,
       data: data
-    }
+    };
   }
 
   /*
     @param { array<string> } args
   */
   static consoleLog(args) {
-    var code = `console.log(${ args && args.join(", ") });`;
+    var code = `console.log(${args && args.join(", ")});`;
     return {
       code: code
-    }
+    };
   }
 
   /*
@@ -355,18 +363,14 @@ class CodeGenerator {
     var code;
 
     if (data.hasOwnProperty("block") && data.block == true) {
-      code =
-        `/*` + "\n" +
-        `${data.text}` + "\n" +
-        `*/`;
+      code = `/*` + "\n" + `${data.text}` + "\n" + `*/`;
       code = CodeGenerator.indent(code);
-    }
-    else {
-      code = `// ${data.text}`
+    } else {
+      code = `// ${data.text}`;
     }
     return {
       code: code
-    }
+    };
   }
 
   /*
@@ -379,19 +383,19 @@ class CodeGenerator {
     @returns: {string}
   */
   static indent(code) {
-    return (
-      code
+    return code
       .split("\n")
-      .map(function(line, i, arr){
+      .map(function(line, i, arr) {
         if (i == 0 || i == arr.length - 1) {
-          return (CodeGenerator.generateTabs(0) + CodeGenerator.clean(line) );
-        }
-        else {
-          return (CodeGenerator.generateTabs(CodeGenerator.numTabs) + CodeGenerator.clean(line) );
+          return CodeGenerator.generateTabs(0) + CodeGenerator.clean(line);
+        } else {
+          return (
+            CodeGenerator.generateTabs(CodeGenerator.numTabs) +
+            CodeGenerator.clean(line)
+          );
         }
       })
-      .join("\n")
-    )
+      .join("\n");
   }
 
   /*
@@ -435,10 +439,8 @@ class CodeGenerator {
     if (CodeGenerator.iteratorPos >= 26) {
       numChars =
         CodeGenerator.iteratorPos % 26 == 0
-        ?
-        (CodeGenerator.iteratorPos / 26) + 1
-        :
-        (CodeGenerator.iteratorPos / 26);
+          ? CodeGenerator.iteratorPos / 26 + 1
+          : CodeGenerator.iteratorPos / 26;
 
       var idx = CodeGenerator.iteratorPos % 26;
     }
@@ -460,14 +462,36 @@ class CodeGenerator {
   }
 }
 
-
 CodeGenerator.numSpacesPerTab = 4;
 CodeGenerator.numTabs = 1;
 CodeGenerator.iteratorPos = 8;
 CodeGenerator.iterators = [
-  "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o",
-  "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z"
 ];
-
 
 module.exports = CodeGenerator;
