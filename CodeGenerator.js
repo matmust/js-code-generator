@@ -232,14 +232,14 @@ class CodeGenerator {
     @param Object data {
       {string} objectArray,
       {string} iterationName,
-      {function} body
+      {string} body
     }
   */
   static forEachLoop(data) {
     var code =
       `${data.objectArray}.forEach( ${data.iterationName} => {` +
       "\n" +
-      `${data.body()}` +
+      `${data.body}` +
       "\n" +
       `})`;
 

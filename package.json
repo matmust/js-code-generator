@@ -1,22 +1,22 @@
 {
-  "name": "js-code-generator",
-  "version": "1.0.0",
+  "name": "code-generate-js",
+  "version": "1.0.4",
   "description": "Programmatically generate javascript",
   "main": "CodeGenerator.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mistermoe/code-generator"
+    "url": "https://github.com/matmust/js-code-generator"
   },
   "keywords": [
-      "code",
-      "generator",
-      "code generator",
-      "programmatic"
+    "code",
+    "generator",
+    "code generator",
+    "programmatic"
   ],
   "author": "Moe Jangda",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mistermoe/code-generator/issues"
+    "url": "https://github.com/matmust/js-code-generator/issues"
   },
-  "homepage": "https://github.com/mistermoe/code-generator"
+  "homepage": "https://github.com/matmust/js-code-generator"
 }
